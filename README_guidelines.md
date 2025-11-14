@@ -8,13 +8,7 @@
 
 ```
 
-# 🗃️ Data framework construction
-
-```python
-
-```
-
-# 🔗 PyTorch dataset integration
+# 🗃️ PyTorch dataset integration
 
 ```python
 

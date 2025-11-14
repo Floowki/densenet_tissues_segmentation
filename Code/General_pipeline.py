@@ -1,6 +1,37 @@
 import cv2 
 
-# 🏃 Train pathologic segmentation model
+# 🎨 Manual tiles annotation
+
+dim = 512                                                         # dimension of the images 
+source_path = "C:/Users/augus/Desktop/Source tiles"               # path to source images 
+semantic_path = "C:/Users/augus/Desktop/additional semantic"      # path to manual annotation masks 
+semantic_desti = ""                                               # path for cleaned masks 
+
+# 🧹 Data refinement 
+
+# 🗃️ Data framework construction
+
+# 🔗 PyTorch dataset integration
+
+# 🚀 Data loader creation
+
+# 🏗️ Neural architecture design
+
+# ⛳ Model fine-tuning
+
+# 👁️ Segmentation validation & visualization
+
+# 🌎 Full-scale dataset segmentation
+
+# 🧩 Tiled recombination
+
+
+
+
+
+
+
+
 
 dim = 512 
 source_path = "C:/Users/augus/Desktop/Source tiles"

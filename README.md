@@ -1,4 +1,4 @@
-#🎯 Automatic segmentation of tissues on WSIs  
+# 🎯 Automatic segmentation of tissues on WSIs  
 
 
 

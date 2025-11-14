@@ -1,6 +1,8 @@
-# Automatic segmentation of tissues on WSIs  
+#🎯 Automatic segmentation of tissues on WSIs  
 
-# Sparse annotation scenario
+
+
+# Sparse manual annotations scenario
 
 # Approach on H&E tiles from ccRCC 
 

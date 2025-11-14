@@ -10,8 +10,10 @@ Throughout their analysis, experts perform segmentation tasks, grade assessment 
 
 # ⛽ Sparse manual annotations scenario
 
+<img src='Figures/Sparse annotations scenario illu.jpg' width='100%'> 
 
 # 🧩 Approach on H&E tiles from ccRCC 
 
+<img src='Figures/Approach on ccRCC tiles illu.jpg' width='100%'> 
 
 DenseNet model fine-tuning for ccRCC tumour semantic segmentation 

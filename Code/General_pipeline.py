@@ -9,79 +9,10 @@ semantic_desti = ""                                               # path for cle
 
 # 🧹 Data refinement 
 
-# 🗃️ Data framework construction
+#####   define a subfunction to perform the cleaning operation 
 
-# 🔗 PyTorch dataset integration
+# 🗃️ PyTorch dataset integration
 
-# 🚀 Data loader creation
-
-# 🏗️ Neural architecture design
-
-# ⛳ Model fine-tuning
-
-# 👁️ Segmentation validation & visualization
-
-# 🌎 Full-scale dataset segmentation
-
-# 🧩 Tiled recombination
-
-
-
-
-
-
-
-
-
-dim = 512 
-source_path = "C:/Users/augus/Desktop/Source tiles"
-semantic_path = "C:/Users/augus/Desktop/additional semantic"
-semantic_desti = ""
-
-# >> Prepare the dataset for training (manual groundtruth masks)
-filenames = os.listdir(semantic_path)
-
-for filename in tqdm(filenames, desc="Downsampling tiles", unit="tile", total=len(filenames)):
-    
-    # Source semantic mask 
-    # >> Load the current semantic tile (GT mask) to process 
-    mask_source_path = os.path.join(semantic_path, filename) 
-    mask_source = cv2.imread(mask_source_path) 
-    mask_source = cv2.cvtColor(mask_source, cv2.COLOR_BGR2RGB)
-    
-    # >> Preprocess the semantic mask to be sure to have only 3 classes 
-    correct_colors = {
-        'red': [255, 1, 13],
-        'black': [1, 1, 1],
-        'blue': [1, 90, 255]
-    }  # sum axis=-1 : red=13, black=3, blue=90 
-    
-    def nearest_color(pixel):
-        # Calculate the Euclidean distance between the pixel and each correct color
-        distances = {color: np.linalg.norm(np.array(pixel) - np.array(rgb)) for color, rgb in correct_colors.items()}
-        # Return the color with the smallest distance
-        return min(distances, key=distances.get)
-    
-    
-    for i in range(512):
-        for j in range(512):
-            pixel = tuple(mask_source[i, j])
-            # Replace the pixel with the nearest correct color if it's not already correct
-            if pixel not in correct_colors.values():
-                nearest = nearest_color(pixel)
-                mask_source[i, j] = correct_colors[nearest]
-    
-
-    mask_source = np.sum(mask_source, axis=-1).astype("uint8") 
-    mask_source[mask_source == 3] = 0      # background
-    mask_source[mask_source == 13] = 1     # stroma 
-    mask_source[mask_source == 90] = 2     # cellular 
-    
-    # >> Save the image in the folder 
-    mask_name = os.path.join(semantic_desti, filename)
-    cv2.imwrite(mask_name, mask_source)
-
-# >> Create and store the PyTorch dataframe 
 source_norm_desti = "C:/Users/augus/Desktop/OSR_DATA_PROCESS/Pixel_classifier/tiles_source"
 semantic_desti = "C:/Users/augus/Desktop/OSR_DATA_PROCESS/Pixel_classifier/tiles_semantic"
  
@@ -90,10 +21,16 @@ df_DN = NNN.dataset_df(source_norm_desti, semantic_desti)
 path_df_seg = "C:/Users/augus/Desktop/OSR_DATA_PROCESS/Pixel_classifier/"
 df_DN.to_pickle(path_df_seg + "dataset_semantic_segmentation_512")
 
-# %%
+# 🚀 Data loader creation
+
 # >> Split the dataset 
 train_loader, val_loader = NNN.init_dataloader(df_DN, batch_size = 8, shuffle = True)
-# >> Fine-tune the DenseNet network 
+
+# 🏗️ Neural architecture design
+
+# ⛳ Model fine-tuning
+
+
 patience = 10
 num_epochs = 20
 epochs_no_improve = 0
@@ -101,80 +38,68 @@ metrics_name = 'training_metrics.csv' # saved in the current folder in Spyder
 
 NNN.model_FineTune(patience, num_epochs, epochs_no_improve, train_loader, val_loader, metrics_name)
 
-# %%
-# >> Compute performance metrics on a dataset 
-path_semanticGT = "C:/Users/augus/Desktop/OSR_DATA_PROCESS/Pixel_classifier/tiles_semantic"
-path_semanticPRED = "C:/Users/augus/Desktop/OSR_DATA_PROCESS/Pixel_classifier/tiles_test"
+# 👁️ Segmentation visualization 
 
-dataset_accuracy = 0
-dataset_precision_back = 0
-dataset_precision_neo = 0
-dataset_precision_non_neo = 0
-all_back = 0 
-all_neo = 0 
-all_non_neo = 0 
+def visualize_seg(test_loader) : 
+    #| Args :              
+    #|   # test_loader : dataloader for dealing with test batches         
 
-filenames = os.listdir(path_semanticPRED) 
+    #| Outputs : 
+    #|   # display the source / segmented images 
+     
+    model = CustomDenseNet()
 
-for filename in tqdm(filenames, desc="Manually segmented masks loop", unit="tile") :
-
-    maskGT_path = os.path.join(path_semanticGT, filename)
-    maskPRED_path = os.path.join(path_semanticPRED, filename)
+    checkpoint = torch.load('C:/Users/augus/Desktop/Code/fine_tuned_densenet_norm_HE.pth')
+    model.load_state_dict(checkpoint['model_state_dict'], strict=False)
+    model.eval()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
     
-    # Collect GT mask 
-    mask_GT = cv2.imread(maskGT_path, cv2.IMREAD_GRAYSCALE)
+    # Select an example image from the test dataset
+    start_time = time.time()
+    example_image, example_mask = next(iter(test_loader))
+
+    # Move the example image to the appropriate device 
+    example_image = example_image.to(device)
+
+    # Make a prediction on the example image 
+    with torch.no_grad():
+        output = model(example_image)
+        _, predicted = torch.max(output, 1)
+
+
+    # Convert the tensors to numpy arrays
+    example_image_np = example_image.cpu().squeeze().permute(1, 2, 0).numpy()
+    predicted_np = predicted.cpu().squeeze().numpy()
+    end_time = time.time()
     
-    # Collect PRED mask 
-    mask_PRED = cv2.imread(maskPRED_path, cv2.IMREAD_GRAYSCALE)
+    rgb_semantic = np.zeros((predicted_np.shape[0], predicted_np.shape[1], 3), dtype="uint8")
 
-    for i in range(512) :      
-        for j in range(512) : 
+    rgb_semantic[predicted_np == 0] = correct_colors[0]    # background
+    rgb_semantic[predicted_np == 1] = correct_colors[1]    # stroma
+    rgb_semantic[predicted_np == 2] = correct_colors[2]    # cellular
 
-            diff = abs(mask_GT[i, j] - mask_PRED[i, j]) 
+    # Plot the source image and the resulting semantic segmentation
+    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
 
-            # Increment the accuracy 
-            if diff == 0 : 
-                
-                dataset_accuracy = dataset_accuracy + 1 
+    # Source image
+    axes[0].imshow(example_image_np)
+    axes[0].set_title('Source Image')
+    axes[0].axis('off')
 
-            # Increment the background precision 
-            if (mask_GT[i, j] == 0) and (mask_PRED[i, j] == 0) : 
-                dataset_precision_back += 1
-                all_back += 1
-                
-            if (mask_PRED[i, j] == 0) and (mask_GT[i, j] != 0) : 
-                all_back += 1
-            
-            # Increment the neoplastic precision 
-            if (mask_GT[i, j] == 2) and (mask_PRED[i, j] == 2) : 
-                dataset_precision_neo += 1
-                all_neo += 1
-                
-            if (mask_PRED[i, j] == 2) and (mask_GT[i, j] != 2) : 
-                all_neo += 1
-            
-            # Increment the non neoplastic precision 
-            if (mask_GT[i, j] == 1) and (mask_PRED[i, j] == 1) : 
-                dataset_precision_non_neo += 1
-                all_non_neo += 1
-                
-            if (mask_PRED[i, j] == 1) and (mask_GT[i, j] != 1) : 
-                all_non_neo += 1
+    # Resulting semantic segmentation
+    axes[1].imshow(rgb_semantic)
+    axes[1].set_title('Semantic Segmentation')
+    axes[1].axis('off')
 
-dataset_accuracy = dataset_accuracy / (len(filenames)*512*512)
-dataset_precision_back = dataset_precision_back / all_back
-dataset_precision_neo = dataset_precision_neo / all_neo
-dataset_precision_non_neo = dataset_precision_non_neo / all_non_neo
+    plt.show() 
+    print(f"Segmentation time : {(end_time - start_time)}")
+    
+    return 
 
-print(f"Accuracy : {dataset_accuracy}")
-print(f"Precision background : {dataset_precision_back}")
-print(f"Precision neoplastic : {dataset_precision_neo}")
-print(f"Precision non neoplastic : {dataset_precision_non_neo}")
 
-# %%
-# 🔰 Perform pathological segmentation
+# 🌎 Full-scale dataset segmentation
 
-# Perform segmentation on dataset 
 # >> paths inner/border tiles (source normalised)
 tissue_dataset_path = root_path + "inner_tiles/HE_norm" 
 tissue_dataset_border_path = root_path + "border_tiles/HE_norm" 
@@ -191,8 +116,8 @@ dim = 512 # dimension of the tiles used for training and inference then (512x512
 NNN.segment_dataset(tissue_dataset_path, seg_dataset_path, classifier_path, dim)
 NNN.segment_dataset(tissue_dataset_border_path, seg_dataset_border_path, classifier_path, dim)
 
-# %%
-# Conduct tiles recombination 
+# 🧩 Tiled recombination
+
 # >> paths 
 # seg_dataset_path = "C:/Users/augus/Desktop/OSR_DATA_PROCESS/Patient1/inner_tiles/Neoplastic/A2"
 # seg_dataset_border_path = "C:/Users/augus/Desktop/OSR_DATA_PROCESS/Patient1/border_tiles/Neoplastic/A2"
@@ -222,3 +147,11 @@ plt.title('WSI_semantic_norm_mask')
 plt.axis('off')
 plt.show()    
 plt.imsave(path_compartments + "WSI_neoplastic_smoothed_mask" + ".png", WSI_semantic_norm_mask, dpi=300)
+
+
+
+
+
+
+
+

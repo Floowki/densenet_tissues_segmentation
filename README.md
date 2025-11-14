@@ -20,6 +20,11 @@ From a few regions with segmented compartments, distinguising tissues with diffe
 
 # 🧩 Approach on H&E tiles from ccRCC 
 
+📡 We propose a case study on H&E tiles derived from resected ccRCC tumours WSIs. The pre-trained network DenseNet169 is employed. \
+  🔗 https://docs.pytorch.org/vision/main/models/generated/torchvision.models.densenet169.html
+
+🔬 The segmentation task here consists of identifying the neoplastic cells (blue) from the tumour micro-environment (red) and the background (black).  
+
 <img src='Figures/Approach on ccRCC tiles illu.jpg' width='100%'> 
 
 DenseNet model fine-tuning for ccRCC tumour semantic segmentation 

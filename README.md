@@ -13,8 +13,8 @@ Throughout their analysis, experts perform segmentation tasks, grade assessment 
 The Deep Learning-based frameworks provide automatic segmentation tools, relying on the training of neural networks still based on manual annotations of WSI tissues. Learning transfer strategies appear as a good compromise for training model to classify pixels on WSI-inferred images, in sparse manual annotations scenario. \
 From a few regions with segmented compartments, distinguising tissues with different properties, a pre-trained neural network can be optimized for a specific task. Indeed, extensively used Deep Learning architectures like DenseNet or SegNet have been used for tumour segmentation tasks. The general outline is the following: 
 
-1. Manual annotations
-2. Model fine-tuning 
+1. Manual annotations - Outline pre-determined distinct compartments, resulting in semantic masks.  
+2. Model fine-tuning - Train a neural network with a dataset for the specific task. 
 
 <img src='Figures/Sparse annotations scenario illu.jpg' width='100%'> 
 

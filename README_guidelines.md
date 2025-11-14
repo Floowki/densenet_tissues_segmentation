@@ -1,5 +1,49 @@
 # 🎨 Manual tiles annotation
 
+<img src='Figures/Pipeline 1.jpg' width='100%'> 
+
+# 🧹 Data refinement 
+
+```python
+
+```
+
+# 🗃️ Data framework construction
+
+```python
+
+```
+
+# 🔗 PyTorch dataset integration
+
+```python
+
+```
+
+# 🚀 Data loader creation
+
+```python
+
+```
+ 
+# 🏗️ Neural architecture design
+
+```python
+
+```
+
+<img src='Figures/Pipeline 2.jpg' width='100%'> 
+ 
+# ⛳ Model fine-tuning
+
+```python
+
+```
+
+<img src='Figures/Pipeline 3.jpg' width='100%'> 
+ 
+# 👁️ Segmentation validation & visualization
+
 ```python
 img_path = ""
 
@@ -12,31 +56,19 @@ plt.axis("off")
 plt.show()
 ```
 
-<img src='Figures/Pipeline 1.jpg' width='100%'> 
-
-# 🧹 Data refinement 
-
-# 🗃️ Data framework construction
-
-# 🔗 PyTorch dataset integration
-
-# 🚀 Data loader creation
- 
-# 🏗️ Neural architecture design
-
-<img src='Figures/Pipeline 2.jpg' width='100%'> 
- 
-# ⛳ Model fine-tuning
-
-<img src='Figures/Pipeline 3.jpg' width='100%'> 
- 
-# 👁️ Segmentation validation & visualization
-
 <img src='Figures/Pipeline 4.jpg' width='100%'> 
  
 # 🌎 Full-scale dataset segmentation
+
+```python
+
+```
  
 # 🧩 Tiled recombination
+
+```python
+
+```
 
 <img src='Figures/Pipeline 5.jpg' width='100%'> 
  

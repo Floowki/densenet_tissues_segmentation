@@ -26,5 +26,3 @@ From a few regions with segmented compartments, distinguising tissues with diffe
 🔬 The segmentation task here consists of identifying the neoplastic cells (blue) from the tumour micro-environment (red) and the background (black).  
 
 <img src='Figures/Approach on ccRCC tiles illu.jpg' width='100%'> 
-
-DenseNet model fine-tuning for ccRCC tumour semantic segmentation 

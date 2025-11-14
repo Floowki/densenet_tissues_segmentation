@@ -6,6 +6,10 @@ Throughout their analysis, experts perform segmentation tasks, grade assessment 
 🔗 https://www.sciencedirect.com/science/article/pii/S2001037024004057#fig0005 \
 🔗 https://www.sciencedirect.com/science/article/abs/pii/S0010482521005242
 
+<img src='Figures/Source image.jpg' width='100%'> 
+
+The initial output of the deep-learning pipeline involves classifying tissue tiles as either tumor or non-tumor based on their morphological features. A: annotations made by the pathologist on the H&E slide indicate the tumor area manually identified across the image. B: the algorithm's tumor classification is shown, with red highlighting the regions where the model has detected tumor-containing tiles, visually marking the zones identified by the deep-learning process.
+
 # ⛽ Sparse manual annotations scenario
 
 

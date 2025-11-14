@@ -6,7 +6,7 @@ Throughout their analysis, experts perform segmentation tasks, grade assessment 
 🔗 https://www.sciencedirect.com/science/article/pii/S2001037024004057#fig0005 \
 🔗 https://www.sciencedirect.com/science/article/abs/pii/S0010482521005242
 
-<img src='Figures/Source image.jpg' width='100%'> 
+<img src='Figures/Automatic segmentation illu.jpg' width='100%'> 
 
 # ⛽ Sparse manual annotations scenario
 

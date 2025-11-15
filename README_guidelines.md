@@ -100,17 +100,40 @@ plt.show()
 ```
 
 <img src='Figures/Pipeline 4.jpg' width='100%'> 
- 
+
 # 🌎 Full-scale dataset segmentation
 
-```python
+Once the model is trained, the classifier is applied accross the tiles extracted from the slide to perform the local semantic masks covering the whole surface. 
 
+```python
+# >> paths inner/border source tiles
+tissue_dataset_path = root_path + "inner_tiles/HE" 
+tissue_dataset_border_path = root_path + "border_tiles/HE" 
+
+# >> destination inner/border tiles 
+seg_dataset_path = root_path + "inner_tiles/Neoplastic" 
+seg_dataset_border_path = root_path + "border_tiles/Neoplastic" 
+
+# >> Segment inner & border tiles 
+SD.segment_dataset(tissue_dataset_path, seg_dataset_path, classifier_path, dim)
+SD.segment_dataset(tissue_dataset_border_path, seg_dataset_border_path, classifier_path, dim)
 ```
  
 # 🧩 Tiled recombination
 
-```python
+The resuslting semantic masks are stitched back together using the colour labels to form the global compartments mask. The compartments are refined at global scale using a dilate-erode association of morphological operations. 
 
+```python
+path_compartments = root_path + "compartments" 
+
+path_mask = root_path + "extraction_mask/extraction_mask_CD34.png"
+extraction_mask = cv2.imread(path_mask, cv2.IMREAD_GRAYSCALE)
+extraction_mask = 255 * extraction_mask
+
+tile_size = 2048
+down_factor = 50 
+
+WSI_tissue_norm_mask, WSI_semantic_norm_mask = RCB.tiles_recombination(extraction_mask, seg_dataset_path, seg_dataset_border_path, down_factor, tile_size, correct_colors)
 ```
 
 <img src='Figures/Pipeline 5.jpg' width='100%'> 

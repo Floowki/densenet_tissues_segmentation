@@ -8,9 +8,7 @@ A collection of 2048x2048 tiles was manually annotated and reviewed by an expert
 
 # 🧹 Data refinement 
 
-```python
-
-```
+The semantic masks delineating compartments cannot be used as direct inputs as they comprise 3 channels and may represent colors with close but distinct RGB tuple (R, G, B) in [0, 255]. The colour assigned to each compartment should be converted into semantic labels (0: background; 1: non neoplastic; 2: neoplastic). To that end, pixels channels are summed and associated with a label, while pixels presenting an unreferenced sum are assigned with the closest color for consistency. 
 
 # 🗃️ PyTorch dataset integration
 

@@ -61,6 +61,7 @@ train_loader, val_loader = ConsD.init_dataloader(df_DN, batch_size = 8, shuffle 
 # 🏗️ Neural architecture design
 
 ```python
+from torchvision import models
 
 ```
 

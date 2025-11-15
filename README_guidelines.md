@@ -33,9 +33,9 @@ The semantic masks delineating compartments cannot be used as direct inputs as t
 
 ```python
 correct_colors = {
-    1: [255, 1, 13], # stroma
+    1: [255, 1, 13], # non neoplastic
     0: [1, 1, 1],    # background
-    2: [1, 90, 255]  # cellular
+    2: [1, 90, 255]  # neoplastic 
 }
 
 CD.construct_dataset(source_path, source_resized_path, mask_path, semantic_desti, dim, correct_colors)
@@ -52,8 +52,10 @@ df_DN.to_pickle(path_df_seg + "dataset_semantic_segmentation")
 
 # 🚀 Data loader creation
 
-```python
+Then Dataloader objects work hand-in-hand with a Dataset to streamline the process of feeding data into the model during training and evaluation. The split is done stratifying on the basis of the dominant class on images. 
 
+```python
+train_loader, val_loader = ConsD.init_dataloader(df_DN, batch_size = 8, shuffle = True)
 ```
  
 # 🏗️ Neural architecture design

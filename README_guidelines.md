@@ -60,7 +60,7 @@ train_loader, val_loader = ConsD.init_dataloader(df_DN, batch_size = 8, shuffle 
  
 # 🏗️ Neural architecture design
 
-
+The pre-trained model weights can be collected directtly from a PyTorch package, associated with a custom segmentation head and optimized for the specific segmentation task. 
 
 ```python
 from torchvision import models
@@ -73,8 +73,14 @@ self.densenet = models.densenet169(pretrained=True)
  
 # ⛳ Model fine-tuning
 
-```python
+The custom DenseNet architecture is retrained upon the dataset for 20 epochs. The Loss function and the accuracy are monitored during the process. 
 
+```python
+patience = 10
+num_epochs = 20
+metrics_name = 'training_metrics.csv' # saved in the current folder 
+
+FTM.model_FineTune(patience, num_epochs, train_loader, val_loader, dim, metrics_name)
 ```
 
 <img src='Figures/Pipeline 3.jpg' width='100%'> 

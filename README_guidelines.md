@@ -85,7 +85,7 @@ FTM.model_FineTune(patience, num_epochs, train_loader, val_loader, dim, metrics_
 
 <img src='Figures/Pipeline 3.jpg' width='100%'> 
  
-# 👁️ Segmentation validation & visualization
+# 👁️ Segmentation visualization
 
 ```python
 img_path = ""

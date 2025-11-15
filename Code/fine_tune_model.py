@@ -6,16 +6,16 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from collections import defaultdict
+import torch.nn as nn 
+
+from architecture import CustomDenseNet
 
 
 
-
-
-def model_FineTune(patience, num_epochs, epochs_no_improve, train_loader, val_loader, metrics_name) : 
+def model_FineTune(patience, num_epochs, train_loader, val_loader, dim, metrics_name) : 
     #| Inputs : 
     #|   # patience : patience level 
     #|   # num_epochs : total number of epochs
-    #|   # epochs_no_improve : the number of allowed successive epochs without improvement 
     #|   # train_loader : the loader getting the training images 
     #|   # val_loader : the loader getting the validation images 
     #|   # metrics_name : name of the file to save the training metrics 
@@ -25,7 +25,7 @@ def model_FineTune(patience, num_epochs, epochs_no_improve, train_loader, val_lo
     
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = CustomDenseNet().to(device)
+    model = CustomDenseNet(output_size=dim).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=patience, verbose=True)

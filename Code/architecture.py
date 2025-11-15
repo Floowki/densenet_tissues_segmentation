@@ -3,10 +3,9 @@ from torchvision import models
 import torch.nn as nn 
 
 
-
 #### DENSENET 169 ####
 class CustomDenseNet(nn.Module):
-    def __init__(self):
+    def __init__(self, output_size=512):
         super(CustomDenseNet, self).__init__()
         # Load pre-trained DenseNet169
         self.densenet = models.densenet169(pretrained=True)
@@ -37,6 +36,7 @@ class CustomDenseNet(nn.Module):
             # Final convolution to get to num_classes
             nn.Conv2d(256, 3, kernel_size=1)
         )
+        self.output_size = output_size
 
     def forward(self, x):
         
@@ -47,7 +47,7 @@ class CustomDenseNet(nn.Module):
         output = self.upsample(features)
 
         # Ensure output has the correct spatial dimensions
-        if output.shape[2] != 512 or output.shape[3] != 512:
-            output = F.interpolate(output, size=(512, 512), mode='bilinear', align_corners=True)
+        if output.shape[2] != self.output_size or output.shape[3] != self.output_size:
+            output = F.interpolate(output, size=(self.output_size, self.output_size), mode='bilinear', align_corners=True)
 
         return output

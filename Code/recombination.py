@@ -8,15 +8,6 @@ import copy
 
 
 
-
-
-correct_colors = {
-    1: [255, 1, 13], # stroma
-    0: [1, 1, 1],    # background
-    2: [1, 90, 255]  # cellular
-}
-
-
 def downsample_spatial_dimensions_decimation(array, factor):
     #| Args : 
     #|   # array : a 3D array image (3-channel image) to downsample              
@@ -35,7 +26,7 @@ def downsample_spatial_dimensions_decimation(array, factor):
 
 
 
-def tiles_recombination(extraction_mask, semantic_masks_path, semantic_masks_border_path, down_factor, tile_size) : 
+def tiles_recombination(extraction_mask, semantic_masks_path, semantic_masks_border_path, down_factor, tile_size, correct_colors) : 
     #| Args : 
     #|   # extraction_mask : final mask employed for biological tissue extraction 
     #|   # semantic_masks_path : path containing the semantic masks identifying 0, 1 and 2 (inner)

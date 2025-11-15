@@ -5,6 +5,7 @@ import cv2
 import torch
 from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader
 
 
 def dataset_df(Source_path, SemMask_path, ) : 
@@ -126,3 +127,24 @@ class WSIDataset(Dataset):
             print(f"Error loading data for index {idx}: {e}")
             # Return a dummy tensor if there's an error (you might want to handle this differently)
             return torch.zeros((3, 512, 512)), torch.zeros((512, 512), dtype=torch.long)
+        
+
+
+def init_dataloader(df_DN, batch_size, shuffle) : 
+    #| Inputs : 
+    #|   # df_DN : dataframe for constructing the dataset 
+    #|   # batch_size : the number of images in a batch 
+    #|   # shuffle : boolean for shuffling or not 
+
+    #| Outputs : 
+    #|   # train_loader : loader for training data from path in the dataframe 
+    #|   # val_loader : loader for validation data from path in the dataframe 
+        
+    train_df_DN = df_DN[df_DN["Split"] == "train"]
+    val_df_DN = df_DN[df_DN["Split"] == "val"]
+
+    # Create dataloaders WITHOUT augmentation
+    train_loader = DataLoader(WSIDataset(train_df_DN), batch_size=batch_size, shuffle=shuffle)
+    val_loader = DataLoader(WSIDataset(val_df_DN), batch_size=batch_size)
+    
+    return train_loader, val_loader

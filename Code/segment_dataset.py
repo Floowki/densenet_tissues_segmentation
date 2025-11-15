@@ -4,7 +4,7 @@ from tqdm import tqdm
 import os
 import torch
 
-
+from architecture import CustomDenseNet
 
 
 # Function for segmenting the dataset with the trained classifier 
@@ -22,7 +22,7 @@ def segment_dataset(dataset_path, seg_dataset_path, trained_classifier_path, dim
     # Load the trained classifier 
     checkpoint = torch.load(trained_classifier_path)          # Load the trained weights
     model_state_dict = checkpoint['model_state_dict']
-    model = CustomDenseNet()                                  # Backbone of customDenseNet 
+    model = CustomDenseNet(output_size=dim)                                  # Backbone of customDenseNet 
     model.load_state_dict(model_state_dict, strict=False)     # load the usefull things for predictions 
     model.eval()                                              # Set the model to evaluation mode 
     

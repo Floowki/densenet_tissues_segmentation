@@ -60,9 +60,13 @@ train_loader, val_loader = ConsD.init_dataloader(df_DN, batch_size = 8, shuffle 
  
 # 🏗️ Neural architecture design
 
+
+
 ```python
 from torchvision import models
-
+...
+self.densenet = models.densenet169(pretrained=True)
+...
 ```
 
 <img src='Figures/Pipeline 2.jpg' width='100%'> 

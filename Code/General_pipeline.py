@@ -54,7 +54,6 @@ train_loader, val_loader = ConsD.init_dataloader(df_DN, batch_size = 8, shuffle 
 
 patience = 10
 num_epochs = 20
-epochs_no_improve = 0
 metrics_name = 'training_metrics.csv' # saved in the current folder 
 
 FTM.model_FineTune(patience, num_epochs, train_loader, val_loader, dim, metrics_name)

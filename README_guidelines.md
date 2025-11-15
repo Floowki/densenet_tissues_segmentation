@@ -1,5 +1,9 @@
 # 🎨 Manual tiles annotation
 
+Our approach was conducted on ccRCC Whole-Slide Images from the TCGA database, a repository and computational platform for cancer researchers with thousands of kidney cancer histopathological images. 
+🔗 https://portal.gdc.cancer.gov/analysis_page?app= \
+A collection of 512x512 tiles was manually annotated and reviewed by an expert pathologist, distinguishing pixels into three categories: neoplastic (blue), non neoplastic (red) or background (black). This operation was performed using the application Sketchbook. 
+
 <img src='Figures/Pipeline 1.jpg' width='100%'> 
 
 # 🧹 Data refinement 

@@ -20,7 +20,7 @@ correct_colors = {
 # 🎨 Manual tiles annotation
 
 dim = 512   # dimension of the images    
-root_path = "C:/Users/augus/Desktop/PORTFOLIO GITHUB/DenseNet_fine_tuning/Dataset/"                      
+root_path = "C:/Users/augus/Desktop/PORTFOLIO GITHUB/Dataset DenseNet fine tuning/"                      
 source_path = root_path + "Source tiles"                                       # path to source images 
 source_resized_path = root_path + "Source resized tiles"                       # path to save resized tiles
 mask_path = root_path + "Mask tiles"                                           # path to manual annotation masks 

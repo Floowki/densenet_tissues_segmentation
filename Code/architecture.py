@@ -19,19 +19,28 @@ class CustomDenseNet(nn.Module):
             nn.Conv2d(1664, 1024, kernel_size=3, padding=1),  # DenseNet169 has 1664 features
             nn.BatchNorm2d(1024),
             nn.ReLU(inplace=True),
-            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
+            #nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
+            nn.ConvTranspose2d(1024, 1024, kernel_size=4, stride=2, padding=1),  
+            nn.BatchNorm2d(1024),
+            nn.ReLU(inplace=True),
 
             # Second upsampling block
             nn.Conv2d(1024, 512, kernel_size=3, padding=1),
             nn.BatchNorm2d(512),
             nn.ReLU(inplace=True),
-            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
+            #nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
+            nn.ConvTranspose2d(512, 512, kernel_size=4, stride=2, padding=1),  
+            nn.BatchNorm2d(512),
+            nn.ReLU(inplace=True),
 
             # Third upsampling block
             nn.Conv2d(512, 256, kernel_size=3, padding=1),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
-            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
+            #nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True),
+            nn.ConvTranspose2d(256, 256, kernel_size=4, stride=2, padding=1), 
+            nn.BatchNorm2d(256),
+            nn.ReLU(inplace=True),
 
             # Final convolution to get to num_classes
             nn.Conv2d(256, 3, kernel_size=1)

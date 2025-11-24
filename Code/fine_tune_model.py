@@ -12,12 +12,14 @@ from architecture import CustomDenseNet
 
 
 
-def model_FineTune(patience, num_epochs, train_loader, val_loader, dim, metrics_name) : 
+def model_FineTune(patience, num_epochs, train_loader, val_loader, dim, weights_class, metrics_name) : 
     #| Inputs : 
     #|   # patience : patience level 
     #|   # num_epochs : total number of epochs
     #|   # train_loader : the loader getting the training images 
     #|   # val_loader : the loader getting the validation images 
+    #|   # dim: dimension of the resized image 
+    #|   # weights_class : class weights to optimize the training across classes
     #|   # metrics_name : name of the file to save the training metrics 
 
     #| Outputs : 
@@ -31,7 +33,8 @@ def model_FineTune(patience, num_epochs, train_loader, val_loader, dim, metrics_
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=patience, verbose=True)
     
     # Apply class weights to balance the dataset 
-    class_weights = torch.tensor([0.45, 0.24, 0.31], dtype=torch.float)
+    #class_weights = torch.tensor([0.45, 0.24, 0.31], dtype=torch.float)
+    class_weights = torch.tensor(weights_class, dtype=torch.float)
     class_weights = class_weights.to(device) 
     
     best_loss = float('inf')
@@ -88,7 +91,7 @@ def model_FineTune(patience, num_epochs, train_loader, val_loader, dim, metrics_
     plt.show()
     
     # Save the classifier 
-    FTnetwork_name = 'fine_tuned_densenet_norm_HE.pth'
+    FTnetwork_name = 'fine_tuned_densenet_HE.pth'
     
     torch.save({
         'model_state_dict': model.state_dict(),

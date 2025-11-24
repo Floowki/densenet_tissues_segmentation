@@ -32,9 +32,12 @@ def construct_dataset(source_path, source_resized_path, semantic_path, semantic_
         mask = cv2.imread(mask_path) 
         mask = cv2.cvtColor(mask, cv2.COLOR_BGR2RGB) 
         
-        # >> Check dimension
+        # >> Check source image dimension
         if img.shape[0] != dim :
             img = cv2.resize(img, (dim, dim), interpolation=cv2.INTER_AREA)
+
+        # >> Check mask image dimension
+        if mask.shape[0] != dim :
             mask = cv2.resize(mask, (dim, dim), interpolation=cv2.INTER_AREA)
 
         # >> Store resized source tiles (even if not)

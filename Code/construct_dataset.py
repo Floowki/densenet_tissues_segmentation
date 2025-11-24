@@ -45,8 +45,22 @@ def dataset_df(Source_path, SemMask_path, ) :
     train_df_DN["Split"] = "train"
     val_df_DN["Split"] = "val"
     df_DN = pd.concat([train_df_DN, val_df_DN])
+
+    wgh_back, wgh_neo, wgh_non_neo = 0, 0, 0
+    for i in range(len(train_df_DN)): 
     
-    return df_DN
+        wgh_back = wgh_back + train_df_DN['Class distribution'].iloc[i]['background']
+        wgh_neo = wgh_neo + train_df_DN['Class distribution'].iloc[i]['cellular']
+        wgh_non_neo = wgh_non_neo + train_df_DN['Class distribution'].iloc[i]['stroma']
+
+    wgh_back, wgh_neo, wgh_non_neo = wgh_back/len(train_df_DN), wgh_neo/len(train_df_DN), wgh_non_neo/len(train_df_DN) 
+    wgh_back, wgh_neo, wgh_non_neo = 1/(3*wgh_back), 1/(3*wgh_neo), 1/(3*wgh_non_neo)
+    sum_to_norm = wgh_back + wgh_neo + wgh_non_neo
+    wgh_back, wgh_neo, wgh_non_neo = wgh_back/sum_to_norm, wgh_neo/sum_to_norm, wgh_non_neo/sum_to_norm
+
+    weights_class = [wgh_back, wgh_neo, wgh_non_neo]
+    
+    return df_DN, weights_class
 
 
 # Blue  -> Class 1 CELLULAR : sum of channels of cleaned semantic mask 88

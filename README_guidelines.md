@@ -6,6 +6,10 @@ A collection of 2048x2048 tiles was manually annotated and reviewed by an expert
 
 <img src='Figures/Pipeline 1.jpg' width='100%'> 
 
+> [!IMPORTANT]
+> The fine-tuning process is sensitive to the quality of the training dataset. Respect the following rules to ensure a qualitative dataset leading to robust and scalable pixel classifier.
+> 
+
 ```python
 import cv2
 import matplotlib.pyplot as plt 

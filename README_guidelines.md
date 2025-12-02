@@ -7,8 +7,11 @@ A collection of 2048x2048 tiles was manually annotated and reviewed by an expert
 <img src='Figures/Pipeline 1.jpg' width='100%'> 
 
 > [!IMPORTANT]
-> The fine-tuning process is sensitive to the quality of the training dataset. Respect the following rules to ensure a qualitative dataset leading to robust and scalable pixel classifier.
-> 
+> The fine-tuning process is sensitive to the quality of the training dataset. Respect the following rules to ensure a qualitative dataset leading to robust and scalable pixel classifier. The train/validation split is stratified on the dominant class present on each tile. 
+> - Furnish the training dataset with around 90 manually segmented tiles (empirical threshold for boosting the performance). 
+> - Provide at least 2 examples with a dominant class for each class (otherwise the split cannot be done).
+> - Emphasise the regions presenting boundaries between distinct tissues (forces a contrastive learning across classes).
+> - Avoid unique-label tiles (fools the model by introducing a phoney tile-level pattern). 
 
 ```python
 import cv2

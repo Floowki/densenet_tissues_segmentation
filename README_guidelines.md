@@ -126,7 +126,7 @@ SD.segment_dataset(tissue_dataset_path, seg_dataset_path, classifier_path, dim)
 SD.segment_dataset(tissue_dataset_border_path, seg_dataset_border_path, classifier_path, dim)
 ```
  
-# 🧩 Tiled recombination
+# 🧩 Tiles recombination
 
 The resuslting semantic masks are stitched back together using the colour labels to form the global compartments mask. The compartments are refined at global scale using a dilate-erode association of morphological operations. 
 

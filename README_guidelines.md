@@ -6,6 +6,13 @@ A collection of 2048x2048 tiles was manually annotated and reviewed by an expert
 
 <img src='Figures/Pipeline 1.jpg' width='100%'> 
 
+> [!IMPORTANT]
+> The fine-tuning process is sensitive to the quality of the training dataset. Respect the following rules to ensure a qualitative dataset leading to a robust and scalable pixel classifier. The train/validation split is stratified on the dominant class present on each tile. 
+> - Provision the training dataset with around 90 manually segmented tiles (empirical threshold for boosting the performance). 
+> - Provide at least 2 examples with a dominant class for each class (otherwise the split cannot be done).
+> - Emphasise the regions presenting boundaries between distinct tissues (forces a contrastive learning across classes).
+> - Avoid unique-label tiles (fools the model by introducing a phoney tile-level pattern). 
+
 ```python
 import cv2
 import matplotlib.pyplot as plt 
@@ -119,7 +126,7 @@ SD.segment_dataset(tissue_dataset_path, seg_dataset_path, classifier_path, dim)
 SD.segment_dataset(tissue_dataset_border_path, seg_dataset_border_path, classifier_path, dim)
 ```
  
-# 🧩 Tiled recombination
+# 🧩 Tiles recombination
 
 The resuslting semantic masks are stitched back together using the colour labels to form the global compartments mask. The compartments are refined at global scale using a dilate-erode association of morphological operations. 
 

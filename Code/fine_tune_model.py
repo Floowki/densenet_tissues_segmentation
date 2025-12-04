@@ -28,7 +28,7 @@ def model_FineTune(patience, num_epochs, train_loader, val_loader, dim, weights_
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = CustomDenseNet(output_size=dim).to(device)
-    criterion = nn.CrossEntropyLoss()
+    #criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=patience, verbose=True)
     
@@ -36,6 +36,7 @@ def model_FineTune(patience, num_epochs, train_loader, val_loader, dim, weights_
     #class_weights = torch.tensor([0.45, 0.24, 0.31], dtype=torch.float)
     class_weights = torch.tensor(weights_class, dtype=torch.float)
     class_weights = class_weights.to(device) 
+    criterion = nn.CrossEntropyLoss(weight=class_weights)
     
     best_loss = float('inf')
     metrics_log = []

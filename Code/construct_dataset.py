@@ -37,7 +37,7 @@ def dataset_df(Source_path, SemMask_path, ) :
     
     train_df_DN, val_df_DN = train_test_split(
         df_DN, 
-        test_size=0.3, 
+        test_size=0.2, 
         stratify=df_DN["Dominant class"],  # Ensures class balance
         random_state=42
     )

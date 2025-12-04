@@ -141,8 +141,8 @@ def tiles_recombination(extraction_mask, semantic_masks_path, semantic_masks_bor
     
     binary_mask = extraction_mask.astype(bool)
     mask_3ch = np.stack([binary_mask]*3, axis=-1)
-    mask_modif = np.where(mask_3ch, WSI_semantic_mask_smoothed, 0)
-    WSI_semantic_mask_smoothed_cleaned = cv2.cvtColor(mask_modif, cv2.COLOR_RGB2BGR)
+    WSI_semantic_mask_smoothed_cleaned = np.where(mask_3ch, WSI_semantic_mask_smoothed, 0)
+    #WSI_semantic_mask_smoothed_cleaned = cv2.cvtColor(mask_modif, cv2.COLOR_RGB2BGR)
      
     
     return WSI_tissue_mask, WSI_semantic_mask_smoothed, WSI_semantic_mask_smoothed_cleaned

@@ -23,7 +23,7 @@ def construct_dataset(source_path, source_resized_path, semantic_path, semantic_
     filenames = os.listdir(source_path)
 
     for filename in tqdm(filenames, desc="Semantic conversion", unit="tile"):
-        
+
         img_path = os.path.join(source_path, filename)
         img = cv2.imread(img_path) 
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

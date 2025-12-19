@@ -2,7 +2,7 @@
 
 Our approach was conducted on ccRCC Whole-Slide Images from the TCGA database, a repository and computational platform for cancer researchers with thousands of kidney cancer histopathological images. \
 🔗 https://portal.gdc.cancer.gov/analysis_page?app= \
-A collection of 2048x2048 tiles was manually annotated and reviewed by an expert pathologist, distinguishing pixels into three categories: neoplastic (blue), non neoplastic (red) or background (black). This operation was performed using the application Sketchbook. 
+A collection of 2048x2048 tiles, extracted from maginification level 0, was manually annotated and reviewed by an expert pathologist, distinguishing pixels into three categories: neoplastic (blue), non neoplastic (red) or background (black). This operation was performed using the application Sketchbook. 
 
 <img src='Figures/Pipeline 1.jpg' width='100%'> 
 
@@ -36,7 +36,7 @@ classifier_path = root_path + "Pixel_classifier/fine_tuned_densenet_HE.pth"    #
 
 # 🧹 Data refinement 
 
-The semantic masks delineating compartments cannot be used as direct inputs as they comprise 3 channels and may represent colors with close but distinct RGB tuple (R, G, B) in [0, 255]. The colour assigned to each compartment should be converted into semantic labels (0: background; 1: non neoplastic; 2: neoplastic). To that end, pixels channels are summed and associated with a label, while pixels presenting an unreferenced sum are assigned with the closest color for consistency. 
+The semantic masks delineating compartments cannot be used as direct inputs as they comprise 3 channels and may represent colors with close but distinct RGB tuple (R, G, B) in [0, 255]. The source images can be resized to smaller dimensions for reducing the computational cost of the operation. If so, the manual masks are resized accordingly. The colour assigned to each compartment should be converted into semantic labels (0: background; 1: non neoplastic; 2: neoplastic). To that end, pixels channels are summed and associated with a label, while pixels presenting an unreferenced sum are assigned with the closest color for consistency. 
 
 ```python
 correct_colors = {

@@ -152,9 +152,9 @@ The accuracy and robustness of the model can be evaluated with an additional dat
 
 Metrics: 
 
-- Accuracy | Proportion of correct predictions (both true positives and true negatives) out of all predictions.
+- Accuracy  | Proportion of correct predictions (both true positives and true negatives) out of all predictions.
 - Precision | Proportion of true positives among all predicted positives: measures how many predicted positives are actually correct.
-- Recall | Proportion of true positives among all actual positives: measures how many actual positives the model captures. 
+- Recall    | Proportion of true positives among all actual positives: measures how many actual positives the model captures. 
 
 ```python
 

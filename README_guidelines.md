@@ -150,20 +150,13 @@ WSI_tissue_norm_mask, WSI_semantic_norm_mask = RCB.tiles_recombination(extractio
 
 The accuracy and robustness of the model can be evaluated with an additional dataset of images unseen during the training. Once the trained classifier has been applied across the source images, the results can be confronted to masks manually labelled. Global metrics measure the classifier ability to make correct predictions while per-class metrics explore the performance across classes.  
 
+Metrics: 
+
+- Accuracy | Proportion of correct predictions (both true positives and true negatives) out of all predictions.
+- Precision | Proportion of true positives among all predicted positives: measures how many predicted positives are actually correct.
+- Recall | Proportion of true positives among all actual positives: measures how many actual positives the model captures. 
+
 ```python
-print(f"Accuracy : {dataset_accuracy}")
-print(f"Precision : {dataset_precision}")
 
-print(f"Accuracy background : {dataset_accuracy_back}")
-print(f"Accuracy neoplastic : {dataset_accuracy_neo}")
-print(f"Accuracy non neoplastic : {dataset_accuracy_non_neo}")
-
-print(f"Precision background : {dataset_precision_back}")
-print(f"Precision neoplastic : {dataset_precision_neo}")
-print(f"Precision non neoplastic : {dataset_precision_non_neo}")
-
-print(f"Recall background : {recall_back}")
-print(f"Recall neoplastic : {recall_neo}")
-print(f"Recall non neoplastic : {recall_non_neo}")
 ```
  

@@ -163,7 +163,7 @@ Metrics:
 - Accuracy  | Proportion of correct predictions (both true positives and true negatives) out of all predictions.
   
 $$
-\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{T}}
+\text{Accuracy}_{\text{global}} = \frac{\text{TP} + \text{TN}}{\text{T}}
 $$
 
 $$

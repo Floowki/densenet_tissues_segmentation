@@ -156,7 +156,7 @@ Notations:
 2. TN: True Negative
 3. FP: False Positive
 4. FN: False Netagive
-5. T: Total 
+5. T: Total (class-wise or global)
 
 Metrics: 
 
@@ -164,6 +164,10 @@ Metrics:
   
 $$
 \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{T}}
+$$
+
+$$
+\text{Accuracy}_{\text{class}} = \frac{\text{TP}_{\text{class}} + \text{TN}_{\text{class}}}{\text{T}_{\text{class}}}
 $$
 
 

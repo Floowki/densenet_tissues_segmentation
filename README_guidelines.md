@@ -168,6 +168,11 @@ $$
 
 
 - Precision | Proportion of true positives among all predicted positives: measures how many predicted positives are actually correct.
+
+$$
+\text{Precision}_{\text{back}} = \frac{\text{TP}_{\text{back}}}{\text{TP}_{\text{back}} + \text{FP}_{\text{back}}}
+$$
+
 - Recall    | Proportion of true positives among all actual positives: measures how many actual positives the model captures. 
 
 

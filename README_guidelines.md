@@ -179,6 +179,13 @@ $$
 
 - Recall    | Proportion of true positives among all actual positives: measures how many actual positives the model captures. 
 
+$$
+\text{Recall}_{\text{global}} = \frac{\text{Recall}_{\text{back}} + \text{Recall}_{\text{neo}} + \text{Recall}_{\text{non neo}}}{3}
+$$
+
+$$
+\text{Recall}_{\text{class}} = \frac{\text{TP}_{\text{class}}}{\text{TP}_{\text{class}} + \text{FN}_{\text{class}}}
+$$
 
 
 ```python

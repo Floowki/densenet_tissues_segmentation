@@ -161,6 +161,11 @@ Notations:
 Metrics: 
 
 - Accuracy  | Proportion of correct predictions (both true positives and true negatives) out of all predictions.
+\[
+\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{FP} + \text{TN} + \text{FN}}
+\]
+
+
 - Precision | Proportion of true positives among all predicted positives: measures how many predicted positives are actually correct.
 - Recall    | Proportion of true positives among all actual positives: measures how many actual positives the model captures. 
 

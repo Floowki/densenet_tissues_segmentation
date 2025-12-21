@@ -163,7 +163,7 @@ Metrics:
 - Accuracy  | Proportion of correct predictions (both true positives and true negatives) out of all predictions.
   
 $$
-\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{FP} + \text{TN} + \text{FN}}
+\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{T}}
 $$
 
 

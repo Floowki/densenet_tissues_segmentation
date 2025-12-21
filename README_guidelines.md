@@ -150,11 +150,21 @@ WSI_tissue_norm_mask, WSI_semantic_norm_mask = RCB.tiles_recombination(extractio
 
 The accuracy and robustness of the model can be evaluated with an additional dataset of images unseen during the training. Once the trained classifier has been applied across the source images, the results can be confronted to masks manually labelled. Global metrics measure the classifier ability to make correct predictions while per-class metrics explore the performance across classes.  
 
+Notations: 
+
+1. TP: True Positive
+2. TN: True Negative
+3. FP: False Positive
+4. FN: False Netagive
+5. T: Total 
+
 Metrics: 
 
 - Accuracy  | Proportion of correct predictions (both true positives and true negatives) out of all predictions.
 - Precision | Proportion of true positives among all predicted positives: measures how many predicted positives are actually correct.
 - Recall    | Proportion of true positives among all actual positives: measures how many actual positives the model captures. 
+
+
 
 ```python
 

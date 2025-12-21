@@ -170,7 +170,11 @@ $$
 - Precision | Proportion of true positives among all predicted positives: measures how many predicted positives are actually correct.
 
 $$
-\text{Precision}_{\text{back}} = \frac{\text{TP}_{\text{back}}}{\text{TP}_{\text{back}} + \text{FP}_{\text{back}}}
+\text{Precision}_{\text{global}} = \frac{\text{Precision}_{\text{back}} + \text{Precision}_{\text{neo}} + \text{Precision}_{\text{non neo}}}{3}
+$$
+
+$$
+\text{Precision}_{\text{class}} = \frac{\text{TP}_{\text{class}}}{\text{TP}_{\text{class}} + \text{FP}_{\text{class}}}
 $$
 
 - Recall    | Proportion of true positives among all actual positives: measures how many actual positives the model captures. 

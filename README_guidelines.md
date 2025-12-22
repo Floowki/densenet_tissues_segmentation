@@ -189,7 +189,14 @@ $$
 
 
 ```python
+path_semanticGT = root_path + "Semantic tiles"  
+path_semanticPRED = root_path + "Predicted tiles 1"
 
+ACC, PRE, REC = CM.compute_metrics(path_semanticGT, path_semanticPRED, dim)
+
+[glob_acc, back_acc, neo_acc, nneo_acc] = ACC
+[glob_pre, back_pre, neo_pre, nneo_pre] = PRE
+[back_rec, neo_rec, nneo_rec] = REC
 ```
 
 # 🔰 Fractional volumes computation 

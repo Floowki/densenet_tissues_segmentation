@@ -148,7 +148,7 @@ WSI_tissue_norm_mask, WSI_semantic_norm_mask = RCB.tiles_recombination(extractio
 
 # 🗿 Performance metrics 
 
-The accuracy and robustness of the model can be evaluated with an additional dataset of images unseen during the training. Once the trained classifier has been applied across the source images, the results can be confronted to masks manually labelled. Global metrics measure the classifier ability to make correct predictions while per-class metrics explore the performance across classes.  
+The accuracy and robustness of the model can be evaluated with an additional dataset of images unseen during the training. Once the trained classifier has been applied across the source images, the results can be confronted to masks manually labelled. Global metrics measure the classifier ability to make correct predictions while per-class metrics explore the performance across classes. The global precision metric is based upon the distinction between 2 labels (tissue = neoplastic and non neoplastic tissues, background) 
 
 Notations: 
 
@@ -174,7 +174,7 @@ $$
 - Precision | Proportion of true positives among all predicted positives: measures how many predicted positives are actually correct.
 
 $$
-\text{Precision}_{\text{global}} = \frac{\text{Precision}_{\text{back}} + \text{Precision}_{\text{neo}} + \text{Precision}_{\text{non neo}}}{3}
+\text{Precision}_{\text{global}} = \frac{\text{TP}_{\text{tissue}}}{\text{TP}_{\text{tissue}} + \text{FP}_{\text{tissue}}}
 $$
 
 $$

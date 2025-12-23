@@ -198,8 +198,3 @@ ACC, PRE, REC = CM.compute_metrics(path_semanticGT, path_semanticPRED, dim)
 [glob_pre, back_pre, neo_pre, nneo_pre] = PRE
 [back_rec, neo_rec, nneo_rec] = REC
 ```
-
-# 🔰 Fractional volumes computation 
-
-
-

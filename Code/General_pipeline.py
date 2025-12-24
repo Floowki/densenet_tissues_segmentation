@@ -10,6 +10,8 @@ import fine_tune_model as FTM
 import test as TS
 import segment_dataset as SD
 import recombination as RCB
+import compute_metrics as CM
+import frac_volumes as FV 
 
 
 correct_colors = {
@@ -136,122 +138,24 @@ plt.imsave(path_compartments + "/WSI_neoplastic_cleaned_mask.png", WSI_tissue_cl
 path_semanticGT = root_path + "Semantic tiles"  
 path_semanticPRED = root_path + "Predicted tiles 1"
 
-dataset_accuracy = 0
-dataset_precision = 0
-dataset_accuracy_back = 0
-dataset_accuracy_neo = 0
-dataset_accuracy_non_neo = 0
-dataset_precision_back = 0
-dataset_precision_neo = 0
-dataset_precision_non_neo = 0
 
-# Global precision tracking
-TP_global = 0
-P_global = 0  # Total predicted positives (non-background)
+ACC, PRE, REC = CM.compute_metrics(path_semanticGT, path_semanticPRED, dim)
 
-# Per-class accuracy tracking
-TP_back = 0; TN_back = 0; FP_back = 0; FN_back = 0
-TP_neo = 0;   TN_neo = 0;   FP_neo = 0;   FN_neo = 0
-TP_non_neo = 0; TN_non_neo = 0; FP_non_neo = 0; FN_non_neo = 0
+[glob_acc, back_acc, neo_acc, nneo_acc] = ACC
+[glob_pre, back_pre, neo_pre, nneo_pre] = PRE
+[back_rec, neo_rec, nneo_rec] = REC
 
-all_back = 0; all_neo = 0; all_non_neo = 0
+print(f"Accuracy : {glob_acc}")
+print(f"Precision : {glob_pre}")
 
-filenames = os.listdir(path_semanticPRED)
-for filename in tqdm(filenames, desc="Manually segmented masks loop", unit="tile"):
-    maskGT_path = os.path.join(path_semanticGT, filename)
-    maskPRED_path = os.path.join(path_semanticPRED, filename)
+print(f"Accuracy background : {back_acc}")
+print(f"Accuracy neoplastic : {neo_acc}")
+print(f"Accuracy non neoplastic : {nneo_acc}")
 
-    mask_GT = cv2.imread(maskGT_path, cv2.IMREAD_GRAYSCALE)
-    mask_PRED = cv2.imread(maskPRED_path, cv2.IMREAD_GRAYSCALE)
+print(f"Precision background : {back_pre}")
+print(f"Precision neoplastic : {neo_pre}")
+print(f"Precision non neoplastic : {nneo_pre}")
 
-    for i in range(512):
-        for j in range(512):
-            gt = mask_GT[i, j]
-            pred = mask_PRED[i, j]
-            diff = abs(gt - pred)
-
-            # Global accuracy
-            if diff == 0:
-                dataset_accuracy += 1
-
-            # Global precision (non-background)
-            if pred != 0:  # Predicted as neoplastic or non-neoplastic
-                P_global += 1
-                if gt == pred:  # Correct prediction
-                    TP_global += 1
-
-            # Background (class 0)
-            if gt == 0 and pred == 0:
-                TP_back += 1
-                dataset_precision_back += 1
-            elif gt == 0 and pred != 0:
-                FP_back += 1
-            elif gt != 0 and pred == 0:
-                FN_back += 1
-            else:
-                TN_back += 1  # Non-background correctly not predicted as background
-            all_back += 1 if pred == 0 else 0
-
-            # Neoplastic (class 2)
-            if gt == 2 and pred == 2:
-                TP_neo += 1
-                dataset_precision_neo += 1
-            elif gt != 2 and pred == 2:
-                FP_neo += 1
-            elif gt == 2 and pred != 2:
-                FN_neo += 1
-            else:
-                TN_neo += 1  # Non-neoplastic correctly not predicted as neoplastic
-            all_neo += 1 if pred == 2 else 0
-
-            # Non-neoplastic (class 1)
-            if gt == 1 and pred == 1:
-                TP_non_neo += 1
-                dataset_precision_non_neo += 1
-            elif gt != 1 and pred == 1:
-                FP_non_neo += 1
-            elif gt == 1 and pred != 1:
-                FN_non_neo += 1
-            else:
-                TN_non_neo += 1  # Non-neoplastic correctly not predicted as non-neoplastic
-            all_non_neo += 1 if pred == 1 else 0
-
-# Normalize metrics
-total_pixels = len(filenames) * 512 * 512
-dataset_accuracy /= total_pixels
-
-# Global precision
-dataset_precision = TP_global / P_global if P_global > 0 else 0
-
-# Per-class accuracy
-dataset_accuracy_back = (TP_back + TN_back) / (TP_back + TN_back + FP_back + FN_back) if (TP_back + TN_back + FP_back + FN_back) > 0 else 0
-dataset_accuracy_neo = (TP_neo + TN_neo) / (TP_neo + TN_neo + FP_neo + FN_neo) if (TP_neo + TN_neo + FP_neo + FN_neo) > 0 else 0
-dataset_accuracy_non_neo = (TP_non_neo + TN_non_neo) / (TP_non_neo + TN_non_neo + FP_non_neo + FN_non_neo) if (TP_non_neo + TN_non_neo + FP_non_neo + FN_non_neo) > 0 else 0
-
-# Per-class precision
-dataset_precision_back /= all_back if all_back > 0 else 1
-dataset_precision_neo /= all_neo if all_neo > 0 else 1
-dataset_precision_non_neo /= all_non_neo if all_non_neo > 0 else 1
-
-# Per-class recall 
-recall_back = TP_back / (TP_back + FN_back) if (TP_back + FN_back) > 0 else 0
-recall_neo = TP_neo / (TP_neo + FN_neo) if (TP_neo + FN_neo) > 0 else 0
-recall_non_neo = TP_non_neo / (TP_non_neo + FN_non_neo) if (TP_non_neo + FN_non_neo) > 0 else 0
-
-
-print(f"Accuracy : {dataset_accuracy}")
-print(f"Precision : {dataset_precision}")
-
-print(f"Accuracy background : {dataset_accuracy_back}")
-print(f"Accuracy neoplastic : {dataset_accuracy_neo}")
-print(f"Accuracy non neoplastic : {dataset_accuracy_non_neo}")
-
-print(f"Precision background : {dataset_precision_back}")
-print(f"Precision neoplastic : {dataset_precision_neo}")
-print(f"Precision non neoplastic : {dataset_precision_non_neo}")
-
-print(f"Recall background : {recall_back}")
-print(f"Recall neoplastic : {recall_neo}")
-print(f"Recall non neoplastic : {recall_non_neo}")
-
-
+print(f"Recall background : {back_rec}")
+print(f"Recall neoplastic : {neo_rec}")
+print(f"Recall non neoplastic : {nneo_rec}")
